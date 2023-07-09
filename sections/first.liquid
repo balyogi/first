@@ -1,0 +1,169 @@
+<section class="First-product noned-review">
+  <div class="container">
+    <div class="product-description">
+      {% assign product = section.settings.first-product %}
+
+      <div class="product-first-description">
+        <img id="product-image" src="{{ product.featured_image | img_url: 'master' }}">
+        <h1>
+          <a class="product-title-first" href="{{ product.url }}">{{ product.title }}</a>
+        </h1>
+        <select id="fid">
+          {% for variant in product.variants %}
+            <option 
+              value="{{ variant.id }}"
+              data-image="{{ variant.image | img_url: '1024x' }}" value1="${{ variant.price  | money_without_currency }}"
+            >{{ variant.title }}</option>
+          {% endfor %}
+        </select>
+        <p class="product-price">
+         <span id="first"> ${{ product.price | money_without_currency }}</span>
+        </p>
+        <div class="quentity">
+<span id="decrease">-</span><p id="number">1</p><span id="increase">+</span>
+        </div>
+        <form method="post" action="/cart/add" class="pad">
+          <input type="hidden" id="variant-id" name="id" value="{{ product.variants.first.id }}">
+          <input type="submit" value="Add To Cart" class="btn fixeddd">
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+
+var selectElement = document.getElementById('fid');
+var imageElement = document.getElementById('product-image');
+var variantIdElement = document.getElementById('variant-id');
+var first = document.getElementById('first');
+ 
+selectElement.addEventListener('change', function() {
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+
+  var selectedImage = selectedOption.dataset.image;
+  var selectedVariantId = selectedOption.value;
+  var dataprice = selectedOption.getAttribute("value1");
+   
+  imageElement.src = selectedImage;
+  variantIdElement.value = selectedVariantId;
+  first.innerText = dataprice;
+});
+
+ var increase = document.getElementById('increase');
+var number = document.getElementById('number');
+var a=number.innerText;
+increase.addEventListener('click', function() {
+var b=++a;
+  number.innerText=b;
+
+});
+
+   var decrease = document.getElementById('decrease');
+
+var a=number.innerText;
+decrease.addEventListener('click', function() {
+  if(a>1)
+  {
+var b=--a;
+  number.innerText=b;
+  }
+});
+
+</script>
+
+{% schema %}
+{
+  "name": "First-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "first-product",
+      "label": "Select a product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "First-section"
+    }
+  ]
+}
+{% endschema %}
+
+
+<style>
+  section.First-product.noned-review {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100vh;
+}
+
+.product-first-description img {
+    width: 100%;
+    max-width: 400px;
+    / text-align: center; /
+}
+
+.product-first-description h1 {
+    margin: 0;
+    text-align: center;
+}
+select {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+.product-first-description h1 a {
+    color: black;
+    text-decoration: none;
+}
+.quentity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border: 1px solid black;
+    font-size: 20px;
+    overflow: hidden;
+    color: black;
+  cursor:pointer;
+}
+.quentity p {
+    border-left: 1px sold;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 10px;
+}
+.quentity span {
+    / padding: 10px; /
+    / display: block; /
+    margin: 0px 20px;
+    / display: block; /
+}
+.product-first-description .product-price {
+    text-align: center;
+    font-size: 20px;
+    margin: 0;
+    color: black;
+}
+.product-first-description {
+    box-shadow: 0px 6px 10px;
+}
+  .product-first-description p span {
+    margin-left: 20px;
+    color: red;
+}
+.product-first-description form input {
+    width: 100%;
+    padding: 15px;
+    color: red;
+    background: black;
+  cursor:pointer;
+}
+</style>
+
+<script>
+
+ 
+</script>
